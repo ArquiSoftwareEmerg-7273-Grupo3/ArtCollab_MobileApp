@@ -1,3 +1,3 @@
-# artcollab_mobile
+# ArtCollab App Móvil
 
-A new Flutter project.
+App móvil de la plataforma ArtCollab.
