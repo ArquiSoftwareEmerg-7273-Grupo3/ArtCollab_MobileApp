@@ -2,7 +2,6 @@ import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_passwor
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
 
@@ -11,7 +10,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _mailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
   @override
@@ -41,7 +40,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: _userController,
+                    controller: _mailController,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.mail),
                         border: OutlineInputBorder(),
@@ -77,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
-                        final String username = _userController.text;
+                        final String mail = _mailController.text;
                         final String password = _pwController.text;
                         /*
                         context.read<AuthBloc>().add(

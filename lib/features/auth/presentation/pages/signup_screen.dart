@@ -2,7 +2,6 @@ import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_passwor
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-
 class SignupScreen extends StatefulWidget {
   const SignupScreen({super.key});
 
@@ -11,7 +10,9 @@ class SignupScreen extends StatefulWidget {
 }
 
 class _SignupScreenState extends State<SignupScreen> {
-  final TextEditingController _userController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _mailController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
   @override
@@ -41,7 +42,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: _userController,
+                    controller: _nameController,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(),
@@ -50,7 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 ),Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: _userController,
+                    controller: _lastNameController,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.person),
                         border: OutlineInputBorder(),
@@ -60,7 +61,7 @@ class _SignupScreenState extends State<SignupScreen> {
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: TextField(
-                    controller: _userController,
+                    controller: _mailController,
                     decoration: const InputDecoration(
                         prefixIcon: Icon(Icons.mail),
                         border: OutlineInputBorder(),
@@ -96,7 +97,9 @@ class _SignupScreenState extends State<SignupScreen> {
                     width: double.infinity,
                     child: OutlinedButton(
                       onPressed: () {
-                        final String username = _userController.text;
+                        final String name = _nameController.text;
+                        final String lastName = _lastNameController.text;
+                        final String mail = _mailController.text;
                         final String password = _pwController.text;
                         /*
                         context.read<AuthBloc>().add(
@@ -216,5 +219,4 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
     );
   }
-
 }
