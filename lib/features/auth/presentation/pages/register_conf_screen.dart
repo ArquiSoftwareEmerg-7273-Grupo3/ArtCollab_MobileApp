@@ -1,94 +1,69 @@
-import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
+import 'package:artcollab_mobile/features/auth/presentation/blocs/date_picker.dart';
 import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginScreen extends StatefulWidget {
-  const LoginScreen({super.key});
+class RegisterConfScreen extends StatefulWidget{
+  const RegisterConfScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<RegisterConfScreen> createState() => _RegisterConfScreen();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _mailController = TextEditingController();
-  final TextEditingController _pwController = TextEditingController();
+class _RegisterConfScreen extends State <RegisterConfScreen> {
+  final TextEditingController locController = TextEditingController();
+  final TextEditingController dateController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     // Add BlocListener for future authentication implementation and routing
     return Scaffold(
       body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Text('Iniciar Sesión',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20))),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _mailController,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail),
-                      border: OutlineInputBorder(),
-                      label: Text('Correo electrónico')),
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Padding(
+                    padding: EdgeInsets.all(12.0),
+                    child: Text('Regístrate', style: TextStyle(
+                            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20))
                 ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<HiddenPasswordCubit, bool>(
-                    builder: (context, state) {
-                  return TextField(
-                    obscureText: state,
-                    controller: _pwController,
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.password),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<HiddenPasswordCubit>()
-                                  .changeVisibility();
-                            },
-                            icon: Icon(state
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                        border: const OutlineInputBorder(),
-                        label: const Text('Contraseña')),
-                  );
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      //final String mail = _mailController.text;
-                      //final String password = _pwController.text;
-
-                      Navigator.pushReplacement(
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: TextField(
+                    controller: locController,
+                    decoration: const InputDecoration(
+                        prefixIcon: Icon(Icons.location_pin),
+                        border: OutlineInputBorder(),
+                        label: Text('Dirección')),
+                  ),
+                ), const Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: DatePicker()
+                ),
+                
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    child: OutlinedButton(
+                      onPressed: () {
+                         Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
                                   const DefaultHomePage()));
-                      /*
+                        /*
                         context.read<AuthBloc>().add(
                             AuthorizeUser(user: username, password: password));
                         */
-                    },
-                    child: const Text('Iniciar Sesion'),
+                      },
+                      child: const Text('Crear Cuenta'),
+                    ),
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
-        ),
         /*
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -195,4 +170,6 @@ class _LoginScreenState extends State<LoginScreen> {
       ),
     );
   }
+
+
 }

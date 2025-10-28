@@ -1,13 +1,14 @@
+
 import 'package:flutter/material.dart';
 
-class FeedPage extends StatefulWidget{
-  const FeedPage({super.key});
+class NotificationsPage extends StatefulWidget{
+  const NotificationsPage({super.key});
 
   @override
-  State<FeedPage> createState() => _FeedPage();
+  State<NotificationsPage> createState() => _NotificationsPage();
 }
 
-class _FeedPage extends State<FeedPage> {
+class _NotificationsPage extends State<NotificationsPage> {
 
   @override
   Widget build(BuildContext context) {
@@ -20,21 +21,21 @@ class _FeedPage extends State<FeedPage> {
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: '¿Qué estás pensando?',
+              hintText: 'Buscar Notificaciones',
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30.0),
                 borderSide: BorderSide.none,
               ),
-              prefixIcon: const Icon(Icons.post_add, color: Colors.grey),
+              prefixIcon: const Icon(Icons.search, color: Colors.grey),
             ),
           ),
         ),
         const Expanded(
           child: Center(
             child: Text(
-              'Aquí puedes ver tu feed',
+              'Aquí puedes ver tus notificaciones',
               style: TextStyle(fontSize: 24),
             ),
           ),
@@ -46,7 +47,7 @@ class _FeedPage extends State<FeedPage> {
             child: OutlinedButton(
               onPressed: () {
               },
-              child: const Text('Recargar Contenido'),
+              child: const Text('Recargar Notificaciones'),
             ),
           ),
         )

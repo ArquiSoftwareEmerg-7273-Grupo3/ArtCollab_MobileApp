@@ -1,4 +1,5 @@
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
+import 'package:artcollab_mobile/features/auth/presentation/pages/register_conf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -17,102 +18,101 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
+    // Add BlocListener for future authentication implementation and routing
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                /*
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  
-                  child: Image.asset(
-                    'assets/images/bus-stop-location-outline-icon.png',
-                    fit: BoxFit.contain,
-                    height: 128,
-                  ),
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text('Regístrate',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _nameController,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                      label: Text('Nombres')),
                 ),
-                */
-                const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text('Regístrate', style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20))
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _lastNameController,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.person),
+                      border: OutlineInputBorder(),
+                      label: Text('Apellidos')),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _nameController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
-                        label: Text('Nombres')),
-                  ),
-                ),Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _lastNameController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
-                        label: Text('Apellidos')),
-                  ),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _mailController,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.mail),
+                      border: OutlineInputBorder(),
+                      label: Text('Correo electrónico')),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _mailController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.mail),
-                        border: OutlineInputBorder(),
-                        label: Text('Correo electrónico')),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BlocBuilder<HiddenPasswordCubit, bool>(
-                      builder: (context, state) {
-                    return TextField(
-                      obscureText: state,
-                      controller: _pwController,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.password),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                context
-                                    .read<HiddenPasswordCubit>()
-                                    .changeVisibility();
-                              },
-                              icon: Icon(state
-                                  ? Icons.visibility
-                                  : Icons.visibility_off)),
-                          border: const OutlineInputBorder(),
-                          label: const Text('Contraseña')),
-                    );
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        final String name = _nameController.text;
-                        final String lastName = _lastNameController.text;
-                        final String mail = _mailController.text;
-                        final String password = _pwController.text;
-                        /*
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: BlocBuilder<HiddenPasswordCubit, bool>(
+                    builder: (context, state) {
+                  return TextField(
+                    obscureText: state,
+                    controller: _pwController,
+                    decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.password),
+                        suffixIcon: IconButton(
+                            onPressed: () {
+                              context
+                                  .read<HiddenPasswordCubit>()
+                                  .changeVisibility();
+                            },
+                            icon: Icon(state
+                                ? Icons.visibility
+                                : Icons.visibility_off)),
+                        border: const OutlineInputBorder(),
+                        label: const Text('Contraseña')),
+                  );
+                }),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      //final String name = _nameController.text;
+                      //final String lastName = _lastNameController.text;
+                      //final String mail = _mailController.text;
+                      //final String password = _pwController.text;
+
+                      Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  const RegisterConfScreen()));
+                      /*
                         context.read<AuthBloc>().add(
                             AuthorizeUser(user: username, password: password));
                         */
-                      },
-                      child: const Text('Crear Cuenta'),
-                    ),
+                    },
+                    child: const Text('Siguiente'),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
+        ),
         /*
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
