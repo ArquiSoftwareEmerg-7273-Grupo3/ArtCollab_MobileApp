@@ -1,69 +1,93 @@
-import 'package:artcollab_mobile/features/auth/presentation/blocs/date_picker.dart';
 import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
 import 'package:flutter/material.dart';
 
-class RegisterConfScreen extends StatefulWidget{
+class RegisterConfScreen extends StatefulWidget {
   const RegisterConfScreen({super.key});
 
   @override
   State<RegisterConfScreen> createState() => _RegisterConfScreen();
 }
 
-class _RegisterConfScreen extends State <RegisterConfScreen> {
-  final TextEditingController locController = TextEditingController();
-  final TextEditingController dateController = TextEditingController();
+class _RegisterConfScreen extends State<RegisterConfScreen> {
+  final TextEditingController _locController = TextEditingController();
+
+  DateTime? selectedDate;
+
+  Future<void> _selectDate() async {
+    final DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(2025, 1, 1),
+      firstDate: DateTime(1960),
+      lastDate: DateTime(2040),
+    );
+
+    setState(() {
+      selectedDate = pickedDate;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     // Add BlocListener for future authentication implementation and routing
     return Scaffold(
       body: SafeArea(
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text('Regístrate', style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20))
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text('Regístrate',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 20))),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TextField(
+                  controller: _locController,
+                  decoration: const InputDecoration(
+                      prefixIcon: Icon(Icons.location_pin),
+                      border: OutlineInputBorder(),
+                      label: Text('Dirección')),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: locController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.location_pin),
-                        border: OutlineInputBorder(),
-                        label: Text('Dirección')),
-                  ),
-                ), const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: DatePicker()
-                ),
-                
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                         Navigator.pushReplacement(
+              ),
+              const Padding(
+                  padding: EdgeInsets.all(12.0),
+                  child: Text('Fecha de Nacimiento',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16))),
+              Text(
+                selectedDate != null
+                    ? '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}'
+                    : 'Fecha no seleccionada',
+              ),
+              OutlinedButton(
+                  onPressed: _selectDate,
+                  child: const Text('Seleccionar Fecha')),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      //final String location = _locController.text;
+                      //final String date = '${selectedDate!.day}/${selectedDate!.month}/${selectedDate!.year}';
+
+                      Navigator.pushReplacement(
                           context,
                           MaterialPageRoute(
-                              builder: (context) =>
-                                  const DefaultHomePage()));
-                        /*
-                        context.read<AuthBloc>().add(
-                            AuthorizeUser(user: username, password: password));
-                        */
-                      },
-                      child: const Text('Crear Cuenta'),
-                    ),
+                              builder: (context) => const DefaultHomePage()));
+                    },
+                    child: const Text('Crear Cuenta'),
                   ),
-                )
-              ],
-            ),
+                ),
+              )
+            ],
           ),
+        ),
         /*
         child: BlocListener<AuthBloc, AuthState>(
           listener: (context, state) {
@@ -170,6 +194,4 @@ class _RegisterConfScreen extends State <RegisterConfScreen> {
       ),
     );
   }
-
-
 }

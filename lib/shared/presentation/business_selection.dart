@@ -1,14 +1,13 @@
-
 import 'package:flutter/material.dart';
 
-class NotificationsPage extends StatefulWidget{
-  const NotificationsPage({super.key});
-
+class BusinessSelection extends StatefulWidget{
+  const BusinessSelection({super.key})
+  
   @override
-  State<NotificationsPage> createState() => _NotificationsPage();
+  State<BusinessSelection> createState() => _BusinessSelection();
 }
 
-class _NotificationsPage extends State<NotificationsPage> {
+class _BusinessSelection extends State<BusinessSelection> {
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +20,7 @@ class _NotificationsPage extends State<NotificationsPage> {
           child: TextField(
             controller: searchController,
             decoration: InputDecoration(
-              hintText: 'Buscar Notificaciones',
+              hintText: 'Placeholder',
               filled: true,
               fillColor: Colors.white,
               border: OutlineInputBorder(
@@ -40,17 +39,6 @@ class _NotificationsPage extends State<NotificationsPage> {
             ),
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: SizedBox(
-            width: double.infinity,
-            child: OutlinedButton(
-              onPressed: () {
-              },
-              child: const Text('Recargar Notificaciones'),
-            ),
-          ),
-        )
       ],
     );
   }
