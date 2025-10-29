@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BusinessSelection extends StatefulWidget{
-  const BusinessSelection({super.key})
+  const BusinessSelection({super.key});
   
   @override
   State<BusinessSelection> createState() => _BusinessSelection();
