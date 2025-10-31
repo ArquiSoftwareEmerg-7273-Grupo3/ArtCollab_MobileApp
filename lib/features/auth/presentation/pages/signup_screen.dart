@@ -1,4 +1,5 @@
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
+import 'package:artcollab_mobile/features/auth/presentation/pages/login_screen.dart';
 import 'package:artcollab_mobile/features/auth/presentation/pages/register_conf_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,204 +19,186 @@ class _SignupScreenState extends State<SignupScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Add BlocListener for future authentication implementation and routing
-    return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Text('Regístrate',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20))),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _nameController,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(),
-                      label: Text('Nombres')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _lastNameController,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.person),
-                      border: OutlineInputBorder(),
-                      label: Text('Apellidos')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _mailController,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail),
-                      border: OutlineInputBorder(),
-                      label: Text('Correo electrónico')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<HiddenPasswordCubit, bool>(
-                    builder: (context, state) {
-                  return TextField(
-                    obscureText: state,
-                    controller: _pwController,
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.password),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<HiddenPasswordCubit>()
-                                  .changeVisibility();
-                            },
-                            icon: Icon(state
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                        border: const OutlineInputBorder(),
-                        label: const Text('Contraseña')),
-                  );
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      //final String name = _nameController.text;
-                      //final String lastName = _lastNameController.text;
-                      //final String mail = _mailController.text;
-                      //final String password = _pwController.text;
+    final theme = Theme.of(context);
+    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
 
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const RegisterConfScreen()));
-                      /*
-                        context.read<AuthBloc>().add(
-                            AuthorizeUser(user: username, password: password));
-                        */
-                    },
-                    child: const Text('Siguiente'),
-                  ),
-                ),
-              )
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: colorScheme.background,
+      appBar: AppBar(
+        title: const Text(
+          'AppCollab',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        /*
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthLoadingState) {
-              const Center(
-                  child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator()));
-            } else if (state is AuthLoadedState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Welcome back, ${state.user.username}.'),
-                ),
-              );
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ));
-            } else if (state is AuthErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
+        backgroundColor: colorScheme.primary,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 2,
+      ),
+      body: SafeArea(
+        child: Center(
           child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                /*
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  
-                  child: Image.asset(
-                    'assets/images/bus-stop-location-outline-icon.png',
-                    fit: BoxFit.contain,
-                    height: 128,
+                Icon(Icons.account_circle,
+                    size: 90, color: colorScheme.primary),
+                const SizedBox(height: 8),
+                Text(
+                  'Crear cuenta',
+                  style: theme.textTheme.headlineSmall?.copyWith(
+                    color: colorScheme.primary,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-                */
-                const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text('Iniciar Sesión', style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20))
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _userController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
-                        label: Text('Usuario')),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BlocBuilder<HiddenPasswordCubit, bool>(
-                      builder: (context, state) {
-                    return TextField(
-                      obscureText: state,
-                      controller: _pwController,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.password),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                context
-                                    .read<HiddenPasswordCubit>()
-                                    .changeVisibility();
-                              },
-                              icon: Icon(state
-                                  ? Icons.visibility
-                                  : Icons.visibility_off)),
-                          border: const OutlineInputBorder(),
-                          label: const Text('Contraseña')),
-                    );
-                  }),
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        final String username = _userController.text;
-                        final String password = _pwController.text;
-                        /*
-                        context.read<AuthBloc>().add(
-                            AuthorizeUser(user: username, password: password));
-                        */
-                      },
-                      child: const Text('Iniciar Sesion'),
+                const SizedBox(height: 24),
+
+                // Nombres
+                TextField(
+                  controller: _nameController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.person),
+                    labelText: 'Nombres',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 16),
+
+                // Apellidos
+                TextField(
+                  controller: _lastNameController,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.person_outline),
+                    labelText: 'Apellidos',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Correo electrónico
+                TextField(
+                  controller: _mailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.mail_outline),
+                    labelText: 'Correo electrónico',
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Contraseña
+                BlocBuilder<HiddenPasswordCubit, bool>(
+                  builder: (context, hidden) {
+                    return TextField(
+                      controller: _pwController,
+                      obscureText: hidden,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        suffixIcon: IconButton(
+                          onPressed: () {
+                            context
+                                .read<HiddenPasswordCubit>()
+                                .changeVisibility();
+                          },
+                          icon: Icon(
+                            hidden
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                          ),
+                        ),
+                        labelText: 'Contraseña',
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Botón siguiente
+                SizedBox(
+                  width: double.infinity,
+                  child: FilledButton.icon(
+                    icon: const Icon(Icons.arrow_forward),
+                    style: FilledButton.styleFrom(
+                      backgroundColor: colorScheme.primary,
+                      foregroundColor: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const RegisterConfScreen(),
+                        ),
+                      );
+                    },
+                    label: const Text(
+                      'Siguiente',
+                      style: TextStyle(fontSize: 16),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 20),
+
+                // Línea divisoria
+                Row(
+                  children: [
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                    )),
+                    const Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text('o'),
+                    ),
+                    Expanded(
+                        child: Divider(
+                      color: Colors.grey.shade300,
+                      thickness: 1,
+                    )),
+                  ],
+                ),
+                const SizedBox(height: 16),
+
+                // Botón para iniciar sesión
+                TextButton(
+                  onPressed: () {
+                    // Aquí puedes navegar a tu pantalla de Login
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const LoginScreen()));
+                  },
+                  child: RichText(
+                    text: TextSpan(
+                      text: '¿Ya tienes una cuenta? ',
+                      style: TextStyle(color: Colors.grey.shade700),
+                      children: [
+                        TextSpan(
+                          text: 'Inicia sesión aquí',
+                          style: TextStyle(
+                            color: colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        */
       ),
     );
   }

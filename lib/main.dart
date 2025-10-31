@@ -1,5 +1,5 @@
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
-import 'package:artcollab_mobile/features/auth/presentation/pages/auth_screen.dart';
+import 'package:artcollab_mobile/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -18,9 +18,8 @@ class MainApp extends StatelessWidget {
         BlocProvider(create: (context) => HiddenPasswordCubit())
       ], 
       child: MaterialApp(
-        home: const AuthScreen(),
+        home: const LoginScreen(),
         debugShowCheckedModeBanner: false,
-        darkTheme: ThemeData.dark(),
         theme: ThemeData.light(),
       ),
     ) ;

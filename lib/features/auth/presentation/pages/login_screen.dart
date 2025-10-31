@@ -1,4 +1,5 @@
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
+import 'package:artcollab_mobile/features/auth/presentation/pages/signup_screen.dart';
 import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -16,183 +17,219 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Add BlocListener for future authentication implementation and routing
+    final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Padding(
-                  padding: EdgeInsets.all(12.0),
-                  child: Text('Iniciar Sesión',
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20))),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: TextField(
-                  controller: _mailController,
-                  decoration: const InputDecoration(
-                      prefixIcon: Icon(Icons.mail),
-                      border: OutlineInputBorder(),
-                      label: Text('Correo electrónico')),
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: BlocBuilder<HiddenPasswordCubit, bool>(
-                    builder: (context, state) {
-                  return TextField(
-                    obscureText: state,
-                    controller: _pwController,
-                    decoration: InputDecoration(
-                        prefixIcon: const Icon(Icons.password),
-                        suffixIcon: IconButton(
-                            onPressed: () {
-                              context
-                                  .read<HiddenPasswordCubit>()
-                                  .changeVisibility();
-                            },
-                            icon: Icon(state
-                                ? Icons.visibility
-                                : Icons.visibility_off)),
-                        border: const OutlineInputBorder(),
-                        label: const Text('Contraseña')),
-                  );
-                }),
-              ),
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: SizedBox(
-                  width: double.infinity,
-                  child: OutlinedButton(
-                    onPressed: () {
-                      //final String mail = _mailController.text;
-                      //final String password = _pwController.text;
-
-                      Navigator.pushReplacement(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  const DefaultHomePage()));
-                      /*
-                        context.read<AuthBloc>().add(
-                            AuthorizeUser(user: username, password: password));
-                        */
-                    },
-                    child: const Text('Iniciar Sesion'),
-                  ),
-                ),
-              )
-            ],
-          ),
+      backgroundColor: Colors.teal.shade50,
+      appBar: AppBar(
+        title: const Text(
+          'AppCollab',
+          style: TextStyle(fontWeight: FontWeight.bold),
         ),
-        /*
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state) {
-            if (state is AuthLoadingState) {
-              const Center(
-                  child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator()));
-            } else if (state is AuthLoadedState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Welcome back, ${state.user.username}.'),
-                ),
-              );
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomePage(),
-                  ));
-            } else if (state is AuthErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
+        backgroundColor: colorScheme.primary,
+        foregroundColor: Colors.white,
+        centerTitle: true,
+        elevation: 2,
+      ),
+      body: SafeArea(
+        child: Center(
           child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                /*
-                Padding(
-                  padding: const EdgeInsets.all(12.0),
-                  
-                  child: Image.asset(
-                    'assets/images/bus-stop-location-outline-icon.png',
-                    fit: BoxFit.contain,
-                    height: 128,
+                // Ícono / logo superior
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.teal.shade100,
+                    shape: BoxShape.circle,
+                  ),
+                  padding: const EdgeInsets.all(20),
+                  child: Icon(
+                    Icons.palette_rounded,
+                    color: Colors.teal.shade700,
+                    size: 60,
                   ),
                 ),
-                */
-                const Padding(
-                    padding: EdgeInsets.all(12.0),
-                    child: Text('Iniciar Sesión', style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold, fontSize: 20))
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: TextField(
-                    controller: _userController,
-                    decoration: const InputDecoration(
-                        prefixIcon: Icon(Icons.person),
-                        border: OutlineInputBorder(),
-                        label: Text('Usuario')),
+                const SizedBox(height: 20),
+
+                // Título
+                const Text(
+                  'Iniciar Sesión',
+                  style: TextStyle(
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: BlocBuilder<HiddenPasswordCubit, bool>(
-                      builder: (context, state) {
-                    return TextField(
-                      obscureText: state,
-                      controller: _pwController,
-                      decoration: InputDecoration(
-                          prefixIcon: const Icon(Icons.password),
-                          suffixIcon: IconButton(
-                              onPressed: () {
-                                context
-                                    .read<HiddenPasswordCubit>()
-                                    .changeVisibility();
-                              },
-                              icon: Icon(state
-                                  ? Icons.visibility
-                                  : Icons.visibility_off)),
-                          border: const OutlineInputBorder(),
-                          label: const Text('Contraseña')),
-                    );
-                  }),
+                const SizedBox(height: 8),
+
+                Text(
+                  'Bienvenido a ArtCollab — conecta y comparte tu arte con el mundo.',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey.shade700,
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: OutlinedButton(
-                      onPressed: () {
-                        final String username = _userController.text;
-                        final String password = _pwController.text;
-                        /*
-                        context.read<AuthBloc>().add(
-                            AuthorizeUser(user: username, password: password));
-                        */
-                      },
-                      child: const Text('Iniciar Sesion'),
+                const SizedBox(height: 32),
+
+                // Campo de correo
+                TextField(
+                  controller: _mailController,
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    prefixIcon: const Icon(Icons.mail_outline),
+                    labelText: 'Correo electrónico',
+                    filled: true,
+                    fillColor: Colors.white,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide.none,
+                    ),
+                    focusedBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(15),
+                      borderSide: BorderSide(color: Colors.teal, width: 2),
                     ),
                   ),
-                )
+                ),
+                const SizedBox(height: 16),
+
+                // Campo de contraseña
+                BlocBuilder<HiddenPasswordCubit, bool>(
+                  builder: (context, hidden) {
+                    return TextField(
+                      controller: _pwController,
+                      obscureText: hidden,
+                      decoration: InputDecoration(
+                        prefixIcon: const Icon(Icons.lock_outline),
+                        labelText: 'Contraseña',
+                        filled: true,
+                        fillColor: Colors.white,
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide: BorderSide.none,
+                        ),
+                        focusedBorder: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(15),
+                          borderSide:
+                              BorderSide(color: Colors.teal, width: 2),
+                        ),
+                        suffixIcon: IconButton(
+                          icon: Icon(
+                            hidden
+                                ? Icons.visibility
+                                : Icons.visibility_off,
+                            color: Colors.grey,
+                          ),
+                          onPressed: () {
+                            context
+                                .read<HiddenPasswordCubit>()
+                                .changeVisibility();
+                          },
+                        ),
+                      ),
+                    );
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Botón de iniciar sesión
+                SizedBox(
+                  width: double.infinity,
+                  height: 48,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.teal,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                      elevation: 3,
+                    ),
+                    onPressed: () {
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const DefaultHomePage(),
+                        ),
+                      );
+                    },
+                    child: const Text(
+                      'Iniciar Sesión',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 16,
+                      ),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+
+                // Recuperación de contraseña
+                TextButton(
+                  onPressed: () {},
+                  child: Text(
+                    '¿Olvidaste tu contraseña?',
+                    style: TextStyle(
+                      color: Colors.teal.shade700,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 20),
+
+                // Línea divisora decorativa
+                Row(
+                  children: [
+                    Expanded(child: Divider(color: Colors.teal.shade200)),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: Text(
+                        'o',
+                        style: TextStyle(color: Colors.grey.shade700),
+                      ),
+                    ),
+                    Expanded(child: Divider(color: Colors.teal.shade200)),
+                  ],
+                ),
+                const SizedBox(height: 20),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      '¿No tienes cuenta?',
+                      style: TextStyle(
+                        color: Colors.grey.shade700,
+                        fontSize: 14,
+                      ),
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignupScreen()),
+                        );
+                      },
+                      child: Text(
+                        'Crea una aquí',
+                        style: TextStyle(
+                          color: Colors.teal.shade700,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ],
             ),
           ),
         ),
-        */
       ),
     );
   }
+
 }
