@@ -29,7 +29,7 @@ class _DefaultHomePage extends State<DefaultHomePage> {
           children: [
             ElevatedButton(
                 onPressed: () {
-                  Navigator.push(
+                  Navigator.pushReplacement(
                       context,
                       MaterialPageRoute(
                           builder: (context) => const ProfilePage()));
