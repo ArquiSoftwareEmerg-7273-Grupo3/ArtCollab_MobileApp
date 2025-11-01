@@ -52,7 +52,7 @@ class _FeedPageState extends State<FeedPage> {
 
   @override
   Widget build(BuildContext context) {
-    final Color primaryColor = Colors.teal;
+    const Color primaryColor = Colors.teal;
     final Color accentColor = Colors.teal.shade300;
     final Color backgroundColor = Colors.grey.shade100;
 
@@ -72,7 +72,7 @@ class _FeedPageState extends State<FeedPage> {
                 contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(30.0),
-                  borderSide: BorderSide(color: accentColor.withOpacity(0.4)),
+                  borderSide: BorderSide(color: accentColor.withValues()),
                 ),
                 prefixIcon: Icon(Icons.edit_note, color: accentColor),
               ),
@@ -96,7 +96,7 @@ class _FeedPageState extends State<FeedPage> {
                           margin: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 8),
                           elevation: 4,
-                          shadowColor: primaryColor.withOpacity(0.3),
+                          shadowColor: primaryColor.withValues(),
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(16),
                           ),

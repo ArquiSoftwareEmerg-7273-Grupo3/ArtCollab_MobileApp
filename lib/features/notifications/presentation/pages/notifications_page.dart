@@ -136,7 +136,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
     final hours = _random.nextInt(23);
     final minutes = _random.nextInt(59);
     if (hours == 0) return 'Hace ${minutes + 1} min';
-    if (hours < 5) return 'Hace ${hours} h';
+    if (hours < 5) return 'Hace $hours h';
     return 'Hoy, ${10 + _random.nextInt(8)}:${minutes.toString().padLeft(2, '0')} AM';
   }
 

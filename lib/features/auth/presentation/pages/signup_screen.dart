@@ -23,7 +23,7 @@ class _SignupScreenState extends State<SignupScreen> {
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
 
     return Scaffold(
-      backgroundColor: colorScheme.background,
+      backgroundColor: colorScheme.surface,
       appBar: AppBar(
         title: const Text(
           'AppCollab',

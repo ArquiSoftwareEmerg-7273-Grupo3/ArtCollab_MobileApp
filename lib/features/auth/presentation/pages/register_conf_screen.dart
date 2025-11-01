@@ -43,7 +43,7 @@ class _RegisterConfScreenState extends State<RegisterConfScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final teal = Colors.teal;
+    const teal = Colors.teal;
 
     return Scaffold(
       backgroundColor: Colors.grey[50],
@@ -85,7 +85,7 @@ class _RegisterConfScreenState extends State<RegisterConfScreen> {
                     filled: true,
                     fillColor: Colors.white,
                     focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide(color: teal, width: 2),
+                      borderSide: const BorderSide(color: teal, width: 2),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     enabledBorder: OutlineInputBorder(
