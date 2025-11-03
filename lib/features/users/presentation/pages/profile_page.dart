@@ -1,5 +1,4 @@
 import 'package:artcollab_mobile/features/auth/presentation/pages/login_screen.dart';
-import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
 import 'package:flutter/material.dart';
 // Si tienes una pantalla principal, importa aquí su archivo:
 // import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
@@ -27,18 +26,6 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ),
         iconTheme: const IconThemeData(color: Colors.white),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.home, color: Colors.white),
-            tooltip: 'Volver al inicio',
-            onPressed: () {
-             Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const DefaultHomePage()));
-            },
-          ),
-        ],
       ),
       body: const ProfileContent(),
     );
@@ -72,8 +59,8 @@ class _ProfileContentState extends State<ProfileContent> {
                 bottomRight: Radius.circular(40),
               ),
             ),
-            child: Column(
-              children: const [
+            child: const Column(
+              children: [
                 CircleAvatar(
                   radius: 55,
                   backgroundColor: Colors.white,
@@ -104,11 +91,11 @@ class _ProfileContentState extends State<ProfileContent> {
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(20),
               ),
-              child: Padding(
+              child: const Padding(
                 padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 25),
+                    EdgeInsets.symmetric(horizontal: 20, vertical: 25),
                 child: Column(
-                  children: const [
+                  children: [
                     InfoTile(
                       icon: Icons.email_outlined,
                       label: 'Correo',
