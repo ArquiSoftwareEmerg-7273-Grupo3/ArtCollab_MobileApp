@@ -1,3 +1,5 @@
+import 'package:artcollab_mobile/shared/presentation/artist_home_page.dart';
+import 'package:artcollab_mobile/shared/presentation/writer_home_page.dart';
 import 'package:flutter/material.dart';
 
 class BusinessSelection extends StatefulWidget {
@@ -10,13 +12,14 @@ class BusinessSelection extends StatefulWidget {
 class _BusinessSelectionState extends State<BusinessSelection> {
   @override
   Widget build(BuildContext context) {
-    final TextEditingController searchController = TextEditingController();
+    //final TextEditingController searchController = TextEditingController();
 
     return Scaffold(
       backgroundColor: Colors.grey[100],
       body: Column(
         children: [
           // Campo de búsqueda
+          /*
           Padding(
             padding: const EdgeInsets.all(12.0),
             child: TextField(
@@ -38,6 +41,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
               ),
             ),
           ),
+          */
 
           // Menú de opciones
           Expanded(
@@ -47,9 +51,27 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                 _buildMenuButton(
                   icon: Icons.person_add_alt_1,
                   title: 'Crear perfil como escritor',
+                  subtitle: 'Crea proyectos colaborativos y revisa las solicitudes de empleo',
+                  onTap: () {
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const WriterHomePage(),
+                        ),
+                      );
+                  },
+                ),
+                _buildMenuButton(
+                  icon: Icons.person_add_alt_1,
+                  title: 'Crear perfil como artista',
                   subtitle: 'Configura tu perfil profesional y destaca tus obras',
                   onTap: () {
-                    // Acción al pulsar
+                    Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const ArtistHomePage(),
+                        ),
+                      );
                   },
                 ),
                 _buildMenuButton(
