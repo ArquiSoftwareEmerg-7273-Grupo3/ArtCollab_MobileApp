@@ -11,7 +11,7 @@ class _RecommendationsPageState extends State<RecommendationsPage> {
 
   @override
   Widget build(BuildContext context){
-    return Scaffold(
+    return const Scaffold(
 
     );
   }

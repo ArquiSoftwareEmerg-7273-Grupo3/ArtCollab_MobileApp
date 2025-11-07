@@ -19,7 +19,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
     const FeedPage(),
     const JobsOffersPage(),
     const NotificationsPage(),
-    const MessagesPage()
+    const ChatPage()
   ];
 
   @override
@@ -42,7 +42,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
         backgroundColor: Colors.teal,
       ),
 
-      // 🔹 Drawer agregado
+      // Drawer agregado
       drawer: Drawer(
         backgroundColor: Colors.teal.shade50,
         child: Column(
@@ -76,7 +76,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
               ),
             ),
 
-            // 🔹 Opción para ir al perfil
+            // Opción para ir al perfil
             ListTile(
               leading: const Icon(Icons.account_circle, color: Colors.teal),
               title: const Text('Perfil'),
@@ -91,7 +91,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
 
             const Divider(),
 
-            // 🔹 Placeholders (para llenar en el futuro)
+            // Placeholders (para llenar en el futuro)
             ...List.generate(6, (index) {
               return ListTile(
                 leading: const Icon(Icons.circle_outlined,
@@ -110,7 +110,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
 
             const Spacer(),
 
-            // 🔹 Botón de configuración al final
+            // Botón de configuración al final
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(

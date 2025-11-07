@@ -21,7 +21,7 @@ class _WriterHomePage extends State<WriterHomePage> {
     const JobsPublishedPage(),
     const RecommendationsPage(),
     const NotificationsPage(),
-    const MessagesPage()
+    const ChatPage()
   ];
 
   @override
@@ -44,7 +44,7 @@ class _WriterHomePage extends State<WriterHomePage> {
         backgroundColor: Colors.teal,
       ),
 
-      // 🔹 Drawer agregado
+      // Drawer agregado
       drawer: Drawer(
         backgroundColor: Colors.teal.shade50,
         child: Column(
@@ -78,7 +78,7 @@ class _WriterHomePage extends State<WriterHomePage> {
               ),
             ),
 
-            // 🔹 Opción para ir al perfil
+            // Opción para ir al perfil
             ListTile(
               leading: const Icon(Icons.account_circle, color: Colors.teal),
               title: const Text('Perfil'),
@@ -93,7 +93,7 @@ class _WriterHomePage extends State<WriterHomePage> {
 
             const Divider(),
 
-            // 🔹 Placeholders (para llenar en el futuro)
+            // Placeholders (para llenar en el futuro)
             ...List.generate(6, (index) {
               return ListTile(
                 leading: const Icon(Icons.circle_outlined,
@@ -112,7 +112,7 @@ class _WriterHomePage extends State<WriterHomePage> {
 
             const Spacer(),
 
-            // 🔹 Botón de configuración al final
+            // Botón de configuración al final
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(
