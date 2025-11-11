@@ -1,5 +1,5 @@
-import 'package:artcollab_mobile/shared/presentation/artist_home_page.dart';
-import 'package:artcollab_mobile/shared/presentation/writer_home_page.dart';
+import 'package:artcollab_mobile/features/users/presentation/pages/artist_registration_page.dart';
+import 'package:artcollab_mobile/features/users/presentation/pages/writer_registration_page.dart';
 import 'package:flutter/material.dart';
 
 class BusinessSelection extends StatefulWidget {
@@ -56,7 +56,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const WriterHomePage(),
+                          builder: (context) => const WriterRegistrationPage(),
                         ),
                       );
                   },
@@ -69,7 +69,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                     Navigator.pushReplacement(
                         context,
                         MaterialPageRoute(
-                          builder: (context) => const ArtistHomePage(),
+                          builder: (context) => const ArtistRegistrationPage(),
                         ),
                       );
                   },

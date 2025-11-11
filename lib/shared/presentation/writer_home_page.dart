@@ -1,7 +1,7 @@
 import 'package:artcollab_mobile/features/feed/presentation/pages/feed_page.dart';
 import 'package:artcollab_mobile/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:artcollab_mobile/features/projects/presentation/pages/jobs_published_page.dart';
-import 'package:artcollab_mobile/features/projects/presentation/pages/messages_page.dart';
+import 'package:artcollab_mobile/features/projects/presentation/pages/chat_page.dart';
 import 'package:artcollab_mobile/features/projects/presentation/pages/recommendations_page.dart';
 import 'package:artcollab_mobile/features/users/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
