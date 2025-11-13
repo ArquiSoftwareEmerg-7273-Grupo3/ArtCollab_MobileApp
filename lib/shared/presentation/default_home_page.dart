@@ -40,7 +40,7 @@ class _DefaultHomePage extends State<DefaultHomePage> {
         backgroundColor: Colors.teal,
       ),
 
-      // 🔹 Drawer agregado
+      // Drawer 
       drawer: Drawer(
         backgroundColor: Colors.teal.shade50,
         child: Column(
@@ -74,7 +74,7 @@ class _DefaultHomePage extends State<DefaultHomePage> {
               ),
             ),
 
-            // 🔹 Opción para ir al perfil
+            // Opción para ir al perfil
             ListTile(
               leading: const Icon(Icons.account_circle, color: Colors.teal),
               title: const Text('Perfil'),
@@ -89,26 +89,50 @@ class _DefaultHomePage extends State<DefaultHomePage> {
 
             const Divider(),
 
-            // 🔹 Placeholders (para llenar en el futuro)
-            ...List.generate(6, (index) {
-              return ListTile(
+            ListTile(
                 leading: const Icon(Icons.circle_outlined,
                     color: Colors.teal, size: 20),
-                title: Text('Opción ${index + 1}'),
+                title: const Text('Suscripciones'),
                 onTap: () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Opción ${index + 1} seleccionada'),
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Suscripciones seleccionada'),
                     backgroundColor: Colors.teal,
-                    duration: const Duration(seconds: 1),
+                    duration: Duration(seconds: 1),
                   ));
                 },
-              );
-            }),
+            ),
+            
+            ListTile(
+                leading: const Icon(Icons.circle_outlined,
+                    color: Colors.teal, size: 20),
+                title: const Text('Anuncia con ArtCollab'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Anuncios seleccionado'),
+                    backgroundColor: Colors.teal,
+                    duration: Duration(seconds: 1),
+                  ));
+                },
+            ),
+            ListTile(
+                leading: const Icon(Icons.circle_outlined,
+                    color: Colors.teal, size: 20),
+                title: const Text('Aprende con ArtCollab'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Aprende con Artcollab seleccionado'),
+                    backgroundColor: Colors.teal,
+                    duration: Duration(seconds: 1),
+                  ));
+                },
+            ),
 
             const Spacer(),
 
-            // 🔹 Botón de configuración al final
+            // Botón de configuración
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ElevatedButton.icon(

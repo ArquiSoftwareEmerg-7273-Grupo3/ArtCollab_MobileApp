@@ -18,31 +18,6 @@ class _BusinessSelectionState extends State<BusinessSelection> {
       backgroundColor: Colors.grey[100],
       body: Column(
         children: [
-          // Campo de búsqueda
-          /*
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: 'Buscar opciones...',
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search, color: Colors.teal),
-                contentPadding: const EdgeInsets.symmetric(vertical: 14.0),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: const BorderSide(color: Colors.teal),
-                ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(30.0),
-                  borderSide: const BorderSide(color: Colors.teal, width: 2),
-                ),
-              ),
-            ),
-          ),
-          */
-
           // Menú de opciones
           Expanded(
             child: ListView(
@@ -125,7 +100,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
             children: [
               CircleAvatar(
                 radius: 28,
-                backgroundColor: Colors.teal.withValues(),
+                backgroundColor: Colors.teal.withOpacity(0.1),
                 child: Icon(icon, color: Colors.teal, size: 30),
               ),
               const SizedBox(width: 16),
