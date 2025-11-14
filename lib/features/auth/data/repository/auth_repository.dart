@@ -28,7 +28,8 @@ class AuthRepository {
       String fechaNacimiento,
       String additionalProp1,
       String additionalProp2,
-      String additionalProp3) async {
+      String additionalProp3
+      ) async {
     Resource<MessageDto> result = await AuthService().signUp(
       username,
       password,

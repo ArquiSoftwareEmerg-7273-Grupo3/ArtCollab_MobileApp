@@ -17,6 +17,16 @@ class _SignupScreenState extends State<SignupScreen> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
+   bool _validateFields() {
+    if (_nameController.text.isEmpty ||
+        _lastNameController.text.isEmpty ||
+        _userController.text.isEmpty ||
+        _pwController.text.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -137,12 +147,36 @@ class _SignupScreenState extends State<SignupScreen> {
                       ),
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const RegisterConfScreen(),
-                        ),
-                      );
+                      if (_validateFields()) {
+                        Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => RegisterConfScreen(
+                              nombres: _nameController.text,
+                              apellidos: _lastNameController.text,
+                              usuario: _userController.text,
+                              contrasena: _pwController.text,
+                            ),
+                          ),
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Por favor completa todos los campos antes de continuar.',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.redAccent,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
                     },
                     label: const Text(
                       'Siguiente',

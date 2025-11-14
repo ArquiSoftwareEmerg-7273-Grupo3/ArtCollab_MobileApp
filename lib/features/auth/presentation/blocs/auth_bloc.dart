@@ -38,7 +38,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             event.fechaNacimiento,
             event.additionalProp1,
             event.additionalProp2,
-            event.additionalProp3);
+            event.additionalProp3
+          );
 
         if (result is Success) {
           emit(RegisterSuccess(regMessage: result.data!));

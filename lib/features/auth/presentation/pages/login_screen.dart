@@ -18,6 +18,13 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _userController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
+  bool _validateFields() {
+    if (_userController.text.isEmpty || _pwController.text.isEmpty) {
+      return false;
+    }
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
     final colorScheme = ColorScheme.fromSeed(seedColor: Colors.teal);
@@ -34,34 +41,32 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 2,
       ),
       body: SafeArea(
-        child: BlocListener<AuthBloc, AuthState>(
-          listener: (context, state){
-            if (state is AuthLoadingState) {
-              const Center(
-                  child: SizedBox(
-                      width: 30,
-                      height: 30,
-                      child: CircularProgressIndicator()));
-            } else if (state is AuthLoadedState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text('Welcome back, ${state.user.username}.'),
-                ),
-              );
-              Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const DefaultHomePage(),
-                  ));
-            } else if (state is AuthErrorState) {
-              ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(
-                  content: Text(state.message),
-                ),
-              );
-            }
-          },
-          child: Center(
+          child: BlocListener<AuthBloc, AuthState>(
+        listener: (context, state) {
+          if (state is AuthLoadingState) {
+            const Center(
+                child: SizedBox(
+                    width: 30, height: 30, child: CircularProgressIndicator()));
+          } else if (state is AuthLoadedState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Bienvenido@ de vuelta, ${state.user.username}.'),
+              ),
+            );
+            Navigator.pushReplacement(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const DefaultHomePage(),
+                ));
+          } else if (state is AuthErrorState) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text(state.message),
+              ),
+            );
+          }
+        },
+        child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
@@ -118,7 +123,8 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                     focusedBorder: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(15),
-                      borderSide: const BorderSide(color: Colors.teal, width: 2),
+                      borderSide:
+                          const BorderSide(color: Colors.teal, width: 2),
                     ),
                   ),
                 ),
@@ -146,9 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         suffixIcon: IconButton(
                           icon: Icon(
-                            hidden
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                            hidden ? Icons.visibility : Icons.visibility_off,
                             color: Colors.grey,
                           ),
                           onPressed: () {
@@ -176,10 +180,29 @@ class _LoginScreenState extends State<LoginScreen> {
                       elevation: 3,
                     ),
                     onPressed: () {
-                      final String username = _userController.text;
+                      if (_validateFields()) {
+                        final String username = _userController.text;
                         final String password = _pwController.text;
                         context.read<AuthBloc>().add(
                             AuthorizeUser(user: username, password: password));
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          SnackBar(
+                            content: const Text(
+                              'Por favor completa todos los campos antes de continuar.',
+                              style: TextStyle(color: Colors.white),
+                            ),
+                            backgroundColor: Colors.redAccent,
+                            behavior: SnackBarBehavior.floating,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            margin: const EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 12),
+                            duration: const Duration(seconds: 2),
+                          ),
+                        );
+                      }
                     },
                     child: const Text(
                       'Iniciar Sesión',
@@ -256,11 +279,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
-          
-        )
-        
-      ),
+      )),
     );
   }
-
 }
