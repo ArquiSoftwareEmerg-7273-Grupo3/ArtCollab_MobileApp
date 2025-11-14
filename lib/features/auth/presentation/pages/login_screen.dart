@@ -1,3 +1,6 @@
+import 'package:artcollab_mobile/features/auth/presentation/blocs/auth_bloc.dart';
+import 'package:artcollab_mobile/features/auth/presentation/blocs/auth_event.dart';
+import 'package:artcollab_mobile/features/auth/presentation/blocs/auth_state.dart';
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
 import 'package:artcollab_mobile/features/auth/presentation/pages/signup_screen.dart';
 import 'package:artcollab_mobile/shared/presentation/default_home_page.dart';
@@ -12,7 +15,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _mailController = TextEditingController();
+  final TextEditingController _userController = TextEditingController();
   final TextEditingController _pwController = TextEditingController();
 
   @override
@@ -31,7 +34,34 @@ class _LoginScreenState extends State<LoginScreen> {
         elevation: 2,
       ),
       body: SafeArea(
-        child: Center(
+        child: BlocListener<AuthBloc, AuthState>(
+          listener: (context, state){
+            if (state is AuthLoadingState) {
+              const Center(
+                  child: SizedBox(
+                      width: 30,
+                      height: 30,
+                      child: CircularProgressIndicator()));
+            } else if (state is AuthLoadedState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text('Welcome back, ${state.user.username}.'),
+                ),
+              );
+              Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const DefaultHomePage(),
+                  ));
+            } else if (state is AuthErrorState) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(state.message),
+                ),
+              );
+            }
+          },
+          child: Center(
           child: SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
             child: Column(
@@ -75,11 +105,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
                 // Campo de correo
                 TextField(
-                  controller: _mailController,
-                  keyboardType: TextInputType.emailAddress,
+                  controller: _userController,
+                  //keyboardType: TextInputType.emailAddress,
                   decoration: InputDecoration(
-                    prefixIcon: const Icon(Icons.mail_outline),
-                    labelText: 'Correo electrónico',
+                    prefixIcon: const Icon(Icons.person),
+                    labelText: 'Usuario',
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
@@ -146,12 +176,10 @@ class _LoginScreenState extends State<LoginScreen> {
                       elevation: 3,
                     ),
                     onPressed: () {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const DefaultHomePage(),
-                        ),
-                      );
+                      final String username = _userController.text;
+                        final String password = _pwController.text;
+                        context.read<AuthBloc>().add(
+                            AuthorizeUser(user: username, password: password));
                     },
                     child: const Text(
                       'Iniciar Sesión',
@@ -228,6 +256,9 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
         ),
+          
+        )
+        
       ),
     );
   }

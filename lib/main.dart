@@ -1,3 +1,4 @@
+import 'package:artcollab_mobile/features/auth/presentation/blocs/auth_bloc.dart';
 import 'package:artcollab_mobile/features/auth/presentation/blocs/hidden_password_cubit.dart';
 import 'package:artcollab_mobile/features/auth/presentation/pages/login_screen.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,7 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        //BlocProvider(create: (context) => AuthBloc()),
+        BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(create: (context) => HiddenPasswordCubit())
       ], 
       child: MaterialApp(
