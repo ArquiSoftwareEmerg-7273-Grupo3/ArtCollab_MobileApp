@@ -91,22 +91,46 @@ class _ArtistHomePage extends State<ArtistHomePage> {
 
             const Divider(),
 
-            // Placeholders (para llenar en el futuro)
-            ...List.generate(6, (index) {
-              return ListTile(
+            ListTile(
                 leading: const Icon(Icons.circle_outlined,
                     color: Colors.teal, size: 20),
-                title: Text('Opción ${index + 1}'),
+                title: const Text('Suscripciones'),
                 onTap: () {
                   Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                    content: Text('Opción ${index + 1} seleccionada'),
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Suscripciones seleccionada'),
                     backgroundColor: Colors.teal,
-                    duration: const Duration(seconds: 1),
+                    duration: Duration(seconds: 1),
                   ));
                 },
-              );
-            }),
+            ),
+            
+            ListTile(
+                leading: const Icon(Icons.circle_outlined,
+                    color: Colors.teal, size: 20),
+                title: const Text('Anuncia con ArtCollab'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Anuncios seleccionado'),
+                    backgroundColor: Colors.teal,
+                    duration: Duration(seconds: 1),
+                  ));
+                },
+            ),
+            ListTile(
+                leading: const Icon(Icons.circle_outlined,
+                    color: Colors.teal, size: 20),
+                title: const Text('Aprende con ArtCollab'),
+                onTap: () {
+                  Navigator.pop(context);
+                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                    content: Text('Aprende con Artcollab seleccionado'),
+                    backgroundColor: Colors.teal,
+                    duration: Duration(seconds: 1),
+                  ));
+                },
+            ),
 
             const Spacer(),
 

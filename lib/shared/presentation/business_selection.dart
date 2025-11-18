@@ -1,3 +1,4 @@
+import 'package:artcollab_mobile/features/subscriptions/presentation/pages/subscription_page.dart';
 import 'package:artcollab_mobile/features/users/presentation/pages/artist_registration_page.dart';
 import 'package:artcollab_mobile/features/users/presentation/pages/writer_registration_page.dart';
 import 'package:flutter/material.dart';
@@ -28,7 +29,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                   title: 'Crear perfil como escritor',
                   subtitle: 'Crea proyectos colaborativos y revisa las solicitudes de empleo',
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const WriterRegistrationPage(),
@@ -41,7 +42,7 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                   title: 'Crear perfil como artista',
                   subtitle: 'Configura tu perfil profesional y destaca tus obras',
                   onTap: () {
-                    Navigator.pushReplacement(
+                    Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => const ArtistRegistrationPage(),
@@ -62,6 +63,12 @@ class _BusinessSelectionState extends State<BusinessSelection> {
                   title: 'Planes',
                   subtitle: 'Explora planes premium y beneficios adicionales',
                   onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const SubscriptionPage(),
+                        ),
+                      );
                     // Acción al pulsar
                   },
                 ),
