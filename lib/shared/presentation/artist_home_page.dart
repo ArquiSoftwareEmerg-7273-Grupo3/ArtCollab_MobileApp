@@ -2,6 +2,7 @@ import 'package:artcollab_mobile/features/feed/presentation/pages/feed_page.dart
 import 'package:artcollab_mobile/features/notifications/presentation/pages/notifications_page.dart';
 import 'package:artcollab_mobile/features/projects/presentation/pages/jobs_offers_page.dart';
 import 'package:artcollab_mobile/features/projects/presentation/pages/chat_page.dart';
+import 'package:artcollab_mobile/features/subscriptions/presentation/pages/subscription_page.dart';
 import 'package:artcollab_mobile/features/users/presentation/pages/profile_page.dart';
 import 'package:flutter/material.dart';
 
@@ -33,8 +34,8 @@ class _ArtistHomePage extends State<ArtistHomePage> {
               padding: const EdgeInsets.all(8.0),
               child: const Text(
                 'ArtCollab',
-                style: TextStyle(
-                    color: Colors.white, fontWeight: FontWeight.bold),
+                style:
+                    TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
               ),
             )
           ],
@@ -92,44 +93,45 @@ class _ArtistHomePage extends State<ArtistHomePage> {
             const Divider(),
 
             ListTile(
-                leading: const Icon(Icons.circle_outlined,
-                    color: Colors.teal, size: 20),
-                title: const Text('Suscripciones'),
-                onTap: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Suscripciones seleccionada'),
-                    backgroundColor: Colors.teal,
-                    duration: Duration(seconds: 1),
-                  ));
-                },
+              leading: const Icon(Icons.circle_outlined,
+                  color: Colors.teal, size: 20),
+              title: const Text('Suscripciones'),
+              onTap: () {
+                Navigator.pop(context);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const SubscriptionPage(),
+                  ),
+                );
+              },
             ),
-            
+
             ListTile(
-                leading: const Icon(Icons.circle_outlined,
-                    color: Colors.teal, size: 20),
-                title: const Text('Anuncia con ArtCollab'),
-                onTap: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Anuncios seleccionado'),
-                    backgroundColor: Colors.teal,
-                    duration: Duration(seconds: 1),
-                  ));
-                },
+              leading: const Icon(Icons.circle_outlined,
+                  color: Colors.teal, size: 20),
+              title: const Text('Anuncia con ArtCollab'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Anuncios seleccionado'),
+                  backgroundColor: Colors.teal,
+                  duration: Duration(seconds: 1),
+                ));
+              },
             ),
             ListTile(
-                leading: const Icon(Icons.circle_outlined,
-                    color: Colors.teal, size: 20),
-                title: const Text('Aprende con ArtCollab'),
-                onTap: () {
-                  Navigator.pop(context);
-                  ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text('Aprende con Artcollab seleccionado'),
-                    backgroundColor: Colors.teal,
-                    duration: Duration(seconds: 1),
-                  ));
-                },
+              leading: const Icon(Icons.circle_outlined,
+                  color: Colors.teal, size: 20),
+              title: const Text('Aprende con ArtCollab'),
+              onTap: () {
+                Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                  content: Text('Aprende con Artcollab seleccionado'),
+                  backgroundColor: Colors.teal,
+                  duration: Duration(seconds: 1),
+                ));
+              },
             ),
 
             const Spacer(),
@@ -177,7 +179,7 @@ class _ArtistHomePage extends State<ArtistHomePage> {
             label: 'Inicio',
             backgroundColor: Colors.teal,
           ),
-           BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(Icons.business_center),
             label: 'Empleos',
             backgroundColor: Colors.teal,
