@@ -5,8 +5,13 @@ import 'package:artcollab_mobile/features/auth/domain/entities/reg_message.dart'
 import 'package:artcollab_mobile/features/users/domain/entities/user.dart';
 
 class AuthRepository {
+  final AuthService _authService;
+
+  AuthRepository({AuthService? authService})
+      : _authService = authService ?? AuthService();
+
   Future<Resource<User>> signIn(String username, String password) async {
-    Resource<UserDto> result = await AuthService().signIn(username, password);
+    Resource<UserDto> result = await _authService.signIn(username, password);
 
     if (result is Success) {
       return Success(result.data!.toUser());
@@ -15,7 +20,6 @@ class AuthRepository {
     }
   }
 
-  // Modificar
   Future<Resource<RegMessage>> signUp(
       String username,
       String password,
@@ -28,12 +32,11 @@ class AuthRepository {
       String fechaNacimiento,
       String additionalProp1,
       String additionalProp2,
-      String additionalProp3
-      ) async {
-    Resource<MessageDto> result = await AuthService().signUp(
+      String additionalProp3) async {
+    Resource<MessageDto> result = await _authService.signUp(
       username,
       password,
-      ubicacion, 
+      ubicacion,
       nombres,
       apellidos,
       telefono,
@@ -41,8 +44,8 @@ class AuthRepository {
       descripcion,
       fechaNacimiento,
       additionalProp1,
-      additionalProp1,
-      additionalProp3
+      additionalProp2,
+      additionalProp3,
     );
 
     if (result is Success) {

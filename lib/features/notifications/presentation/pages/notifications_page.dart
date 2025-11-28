@@ -1,5 +1,7 @@
-import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:artcollab_mobile/features/notifications/data/remote/notification_service.dart';
+import 'package:artcollab_mobile/core/storage/user_storage.dart';
+import 'package:artcollab_mobile/core/utils/resource.dart';
 
 class NotificationsPage extends StatefulWidget {
   const NotificationsPage({super.key});
@@ -9,212 +11,232 @@ class NotificationsPage extends StatefulWidget {
 }
 
 class _NotificationsPageState extends State<NotificationsPage> {
-  final TextEditingController searchController = TextEditingController();
-  final Random _random = Random();
-
-  final List<Map<String, dynamic>> _notificationTemplates = [
-    {
-      'title': 'Nuevo seguidor',
-      'subtitle': '📸 {user} empezó a seguirte. ¡Bienvenido a la comunidad!',
-      'icon': Icons.person_add_alt_1,
-    },
-    {
-      'title': 'Comentario recibido',
-      'subtitle': '💬 {user} comentó tu obra “{artwork}”.',
-      'icon': Icons.comment,
-    },
-    {
-      'title': 'Tu arte fue destacado',
-      'subtitle': '🌟 “{artwork}” fue destacado en la sección de tendencias.',
-      'icon': Icons.star,
-    },
-    {
-      'title': 'Nuevo like',
-      'subtitle': '❤️ “{artwork}” recibió {count} nuevos likes.',
-      'icon': Icons.favorite,
-    },
-    {
-      'title': 'Desafío creativo',
-      'subtitle': '🎨 Participa en el reto “{challenge}” y muestra tu estilo.',
-      'icon': Icons.palette,
-    },
-    {
-      'title': 'Mensaje de colaboración',
-      'subtitle': '🤝 {user} te invitó a colaborar en un nuevo proyecto.',
-      'icon': Icons.mail,
-    },
-    {
-      'title': 'Actualiza tu portafolio',
-      'subtitle': '🖌️ Hace tiempo que no subes nuevas obras. ¡Inspírate hoy!',
-      'icon': Icons.edit,
-    },
-    {
-      'title': 'Tendencia cercana',
-      'subtitle': '🚀 El estilo “{trend}” está ganando popularidad esta semana.',
-      'icon': Icons.trending_up,
-    },
-    {
-      'title': 'Sugerencia de artista',
-      'subtitle': '🔍 Descubre el trabajo de @{user}, con un estilo similar al tuyo.',
-      'icon': Icons.recommend,
-    },
-    {
-      'title': 'Tu arte fue compartido',
-      'subtitle': '📢 Tu obra “{artwork}” fue compartida por {count} usuarios.',
-      'icon': Icons.share,
-    },
-  ];
-
-  final List<String> _users = [
-    'LauraPixels',
-    'CarlosDesign',
-    'AndresVisual',
-    'ArtByLuna',
-    'StudioGraphix',
-    'MikaDraws',
-    'NeoInk',
-    'PixelMancer'
-  ];
-
-  final List<String> _artworks = [
-    'Neon Dreams',
-    'Minimal Cityscape',
-    'Abstract Waves',
-    'Cyber Portrait',
-    'Surreal Night',
-    'Glass Horizon'
-  ];
-
-  final List<String> _challenges = [
-    'Colores del Futuro',
-    'Minimalismo Digital',
-    'CiberNaturaleza',
-    'Inspiración Retro',
-  ];
-
-  final List<String> _trends = [
-    'Cyberpunk',
-    '3D Minimalista',
-    'Pixel Art',
-    'Estilo Acuarela'
-  ];
-
-  List<Map<String, dynamic>> notifications = [];
+  final NotificationService _notificationService = NotificationService();
+  final UserStorage _userStorage = UserStorage();
+  
+  List<NotificationDto> _notifications = [];
+  bool _isLoading = true;
+  int? _currentUserId;
 
   @override
   void initState() {
     super.initState();
-    _generateRandomNotifications();
+    _loadCurrentUser();
   }
 
-  void _generateRandomNotifications() {
-    final randomList = List.generate(8, (index) {
-      final template =
-          _notificationTemplates[_random.nextInt(_notificationTemplates.length)];
-
-      String subtitle = template['subtitle']
-          .replaceAll('{user}', _users[_random.nextInt(_users.length)])
-          .replaceAll('{artwork}', _artworks[_random.nextInt(_artworks.length)])
-          .replaceAll('{challenge}', _challenges[_random.nextInt(_challenges.length)])
-          .replaceAll('{trend}', _trends[_random.nextInt(_trends.length)])
-          .replaceAll('{count}', (_random.nextInt(40) + 5).toString());
-
-      return {
-        'title': template['title'],
-        'subtitle': subtitle,
-        'icon': template['icon'],
-        'time': _generateRandomTime(),
-      };
-    });
-
-    setState(() {
-      notifications = randomList;
-    });
+  Future<void> _loadCurrentUser() async {
+    final userId = await _userStorage.getUserId();
+    setState(() => _currentUserId = userId);
+    if (userId != null) {
+      _loadNotifications();
+    }
   }
 
-  String _generateRandomTime() {
-    final hours = _random.nextInt(23);
-    final minutes = _random.nextInt(59);
-    if (hours == 0) return 'Hace ${minutes + 1} min';
-    if (hours < 5) return 'Hace $hours h';
-    return 'Hoy, ${10 + _random.nextInt(8)}:${minutes.toString().padLeft(2, '0')} AM';
+  Future<void> _loadNotifications() async {
+    if (_currentUserId == null) return;
+    
+    setState(() => _isLoading = true);
+    
+    final result = await _notificationService.getNotifications(_currentUserId!);
+    if (result is Success<List<NotificationDto>>) {
+      setState(() {
+        _notifications = result.data ?? [];
+        _isLoading = false;
+      });
+    } else {
+      setState(() => _isLoading = false);
+    }
+  }
+
+  Future<void> _markAsRead(NotificationDto notification) async {
+    if (notification.isRead) return;
+    
+    final result = await _notificationService.markAsRead(notification.id);
+    if (result is Success) {
+      _loadNotifications();
+    }
+  }
+
+  IconData _getNotificationIcon(String type) {
+    switch (type.toUpperCase()) {
+      case 'COMMENT':
+        return Icons.comment;
+      case 'REACTION':
+      case 'LIKE':
+        return Icons.favorite;
+      case 'FOLLOW':
+        return Icons.person_add;
+      case 'MESSAGE':
+        return Icons.message;
+      default:
+        return Icons.notifications;
+    }
+  }
+
+  Color _getNotificationColor(String type) {
+    switch (type.toUpperCase()) {
+      case 'COMMENT':
+        return Colors.blue;
+      case 'REACTION':
+      case 'LIKE':
+        return Colors.red;
+      case 'FOLLOW':
+        return Colors.green;
+      case 'MESSAGE':
+        return Colors.purple;
+      default:
+        return Colors.grey;
+    }
+  }
+
+  String _formatTime(DateTime dateTime) {
+    final now = DateTime.now();
+    final difference = now.difference(dateTime);
+
+    if (difference.inDays > 0) {
+      return '${difference.inDays}d atrás';
+    } else if (difference.inHours > 0) {
+      return '${difference.inHours}h atrás';
+    } else if (difference.inMinutes > 0) {
+      return '${difference.inMinutes}m atrás';
+    } else {
+      return 'Ahora';
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.teal.shade50,
-      body: Column(
-        children: [
-          // Campo de búsqueda
-          Padding(
-            padding: const EdgeInsets.all(12.0),
-            child: TextField(
-              controller: searchController,
-              decoration: InputDecoration(
-                hintText: 'Buscar notificaciones...',
-                filled: true,
-                fillColor: Colors.white,
-                prefixIcon: const Icon(Icons.search, color: Colors.grey),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(25.0),
-                  borderSide: BorderSide.none,
+      backgroundColor: Colors.grey.shade100,
+      body: _isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _notifications.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Icon(
+                        Icons.notifications_none,
+                        size: 64,
+                        color: Colors.grey.shade400,
+                      ),
+                      const SizedBox(height: 16),
+                      Text(
+                        'No tienes notificaciones',
+                        style: TextStyle(
+                          fontSize: 18,
+                          color: Colors.grey.shade600,
+                        ),
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        'Te notificaremos cuando haya actividad',
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: Colors.grey.shade500,
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : RefreshIndicator(
+                  onRefresh: _loadNotifications,
+                  child: ListView.builder(
+                    itemCount: _notifications.length,
+                    itemBuilder: (context, index) {
+                      final notification = _notifications[index];
+                      return Card(
+                        margin: const EdgeInsets.symmetric(
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
+                        color: notification.isRead 
+                            ? Colors.white 
+                            : Colors.teal.shade50,
+                        child: ListTile(
+                          leading: Container(
+                            padding: const EdgeInsets.all(8),
+                            decoration: BoxDecoration(
+                              color: _getNotificationColor(notification.type)
+                                  .withOpacity(0.1),
+                              shape: BoxShape.circle,
+                            ),
+                            child: Icon(
+                              _getNotificationIcon(notification.type),
+                              color: _getNotificationColor(notification.type),
+                              size: 24,
+                            ),
+                          ),
+                          title: Text(
+                            notification.message,
+                            style: TextStyle(
+                              fontWeight: notification.isRead 
+                                  ? FontWeight.normal 
+                                  : FontWeight.bold,
+                            ),
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              const SizedBox(height: 4),
+                              Text(
+                                _formatTime(notification.createdAt),
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.grey.shade600,
+                                ),
+                              ),
+                              if (!notification.isRead)
+                                Padding(
+                                  padding: const EdgeInsets.only(top: 4),
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8,
+                                      vertical: 2,
+                                    ),
+                                    decoration: BoxDecoration(
+                                      color: Colors.teal,
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                    child: const Text(
+                                      'Nueva',
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 10,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          trailing: !notification.isRead
+                              ? IconButton(
+                                  icon: const Icon(
+                                    Icons.check_circle_outline,
+                                    color: Colors.teal,
+                                  ),
+                                  onPressed: () => _markAsRead(notification),
+                                  tooltip: 'Marcar como leída',
+                                )
+                              : null,
+                          onTap: () {
+                            _markAsRead(notification);
+                            // TODO: Navegar al contenido relacionado
+                            if (notification.postId != null) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Navegación a post próximamente'),
+                                  backgroundColor: Colors.teal,
+                                ),
+                              );
+                            }
+                          },
+                        ),
+                      );
+                    },
+                  ),
                 ),
-              ),
-            ),
-          ),
-
-          // Lista de notificaciones generadas
-          Expanded(
-            child: ListView.builder(
-              padding: const EdgeInsets.symmetric(horizontal: 12),
-              itemCount: notifications.length,
-              itemBuilder: (context, index) {
-                final item = notifications[index];
-                return Card(
-                  elevation: 2,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  margin: const EdgeInsets.symmetric(vertical: 6),
-                  child: ListTile(
-                    leading: CircleAvatar(
-                      backgroundColor: Colors.teal.shade100,
-                      child: Icon(item['icon'], color: Colors.teal.shade700),
-                    ),
-                    title: Text(
-                      item['title'],
-                      style: const TextStyle(
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    subtitle: Text(
-                      item['subtitle'],
-                      style: const TextStyle(color: Colors.black54),
-                    ),
-                    trailing: Text(
-                      item['time'],
-                      style: TextStyle(
-                        color: Colors.teal.shade700,
-                        fontSize: 12,
-                      ),
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-
-      // Botón flotante para recargar
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: _generateRandomNotifications,
-        backgroundColor: Colors.teal,
-        icon: const Icon(Icons.refresh),
-        label: const Text('Recargar'),
-      ),
     );
   }
 }
