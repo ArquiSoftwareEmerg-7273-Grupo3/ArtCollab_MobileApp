@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:artcollab_mobile/core/theme/premium_theme.dart';
 import 'package:artcollab_mobile/core/theme/role_theme_provider.dart';

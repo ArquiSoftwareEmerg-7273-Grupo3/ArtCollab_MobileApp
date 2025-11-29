@@ -237,7 +237,7 @@ class PremiumTheme {
         labelMedium: labelMedium,
         labelSmall: labelSmall,
       ),
-      cardTheme: CardTheme(
+      cardTheme: CardThemeData( // <-- ¡Usa CardThemeData!
         elevation: 0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(radiusLarge),

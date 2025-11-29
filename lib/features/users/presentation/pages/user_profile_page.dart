@@ -21,7 +21,7 @@ class UserProfilePage extends StatefulWidget {
 
 class _UserProfilePageState extends State<UserProfilePage> {
   final UserService _userService = UserService();
-  
+
   UserProfileDto? _profile;
   bool _isLoading = true;
   String? _errorMessage;
@@ -129,7 +129,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
               fit: StackFit.expand,
               children: [
                 NetworkImageWithFallback(
-                  imageUrl: _profile!.foto,
+                  // Si _profile!.foto es nulo, usa 'assets/fallback_image.png' (o una URL de reserva).
+                  imageUrl: _profile!.foto ?? 'https://via.placeholder.com/150',
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
@@ -184,7 +185,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
 
                 // Nombre
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppTheme.spacingMedium),
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: AppTheme.spacingMedium),
                   child: Text(
                     _profile!.fullName,
                     style: context.textTheme.headlineMedium?.copyWith(
@@ -205,7 +207,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                     ),
                     decoration: BoxDecoration(
                       color: AppTheme.primaryColor.withOpacity(0.1),
-                      borderRadius: BorderRadius.circular(AppTheme.borderRadiusLarge),
+                      borderRadius:
+                          BorderRadius.circular(AppTheme.borderRadiusLarge),
                       border: Border.all(
                         color: AppTheme.primaryColor,
                       ),
@@ -226,7 +229,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                   padding: const EdgeInsets.all(AppTheme.spacingMedium),
                   child: Column(
                     children: [
-                      if (_profile!.descripcion != null && _profile!.descripcion!.isNotEmpty) ...[
+                      if (_profile!.descripcion != null &&
+                          _profile!.descripcion!.isNotEmpty) ...[
                         ElegantCard(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
@@ -240,7 +244,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   const SizedBox(width: AppTheme.spacingSmall),
                                   Text(
                                     'Sobre mí',
-                                    style: context.textTheme.titleMedium?.copyWith(
+                                    style:
+                                        context.textTheme.titleMedium?.copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -271,32 +276,38 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                 const SizedBox(width: AppTheme.spacingSmall),
                                 Text(
                                   'Información de Contacto',
-                                  style: context.textTheme.titleMedium?.copyWith(
+                                  style:
+                                      context.textTheme.titleMedium?.copyWith(
                                     fontWeight: FontWeight.bold,
                                   ),
                                 ),
                               ],
                             ),
                             const SizedBox(height: AppTheme.spacingMedium),
-                            _buildInfoRow(Icons.email, 'Email', _profile!.email),
+                            _buildInfoRow(
+                                Icons.email, 'Email', _profile!.email),
                             if (_profile!.telefono != null) ...[
                               const Divider(height: AppTheme.spacingMedium),
-                              _buildInfoRow(Icons.phone, 'Teléfono', _profile!.telefono!),
+                              _buildInfoRow(
+                                  Icons.phone, 'Teléfono', _profile!.telefono!),
                             ],
                             if (_profile!.ubicacion != null) ...[
                               const Divider(height: AppTheme.spacingMedium),
-                              _buildInfoRow(Icons.location_on, 'Ubicación', _profile!.ubicacion!),
+                              _buildInfoRow(Icons.location_on, 'Ubicación',
+                                  _profile!.ubicacion!),
                             ],
                             if (_profile!.username != null) ...[
                               const Divider(height: AppTheme.spacingMedium),
-                              _buildInfoRow(Icons.alternate_email, 'Usuario', '@${_profile!.username!}'),
+                              _buildInfoRow(Icons.alternate_email, 'Usuario',
+                                  '@${_profile!.username!}'),
                             ],
                           ],
                         ),
                       ),
 
                       // Redes sociales
-                      if (_profile!.redesSociales != null && _profile!.redesSociales!.isNotEmpty) ...[
+                      if (_profile!.redesSociales != null &&
+                          _profile!.redesSociales!.isNotEmpty) ...[
                         const SizedBox(height: AppTheme.spacingMedium),
                         ElegantCard(
                           child: Column(
@@ -311,7 +322,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                                   const SizedBox(width: AppTheme.spacingSmall),
                                   Text(
                                     'Redes Sociales',
-                                    style: context.textTheme.titleMedium?.copyWith(
+                                    style:
+                                        context.textTheme.titleMedium?.copyWith(
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
@@ -320,7 +332,8 @@ class _UserProfilePageState extends State<UserProfilePage> {
                               const SizedBox(height: AppTheme.spacingMedium),
                               ..._profile!.redesSociales!.entries.map((entry) {
                                 return Padding(
-                                  padding: const EdgeInsets.only(bottom: AppTheme.spacingSmall),
+                                  padding: const EdgeInsets.only(
+                                      bottom: AppTheme.spacingSmall),
                                   child: _buildInfoRow(
                                     _getSocialIcon(entry.key),
                                     _formatSocialName(entry.key),

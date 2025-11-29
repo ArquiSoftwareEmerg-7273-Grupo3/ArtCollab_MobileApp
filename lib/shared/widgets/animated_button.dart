@@ -216,7 +216,7 @@ class _AnimatedButtonState extends State<AnimatedButton>
       height: height,
       padding: padding,
       decoration: BoxDecoration(
-        color: gradient == null ? backgroundColor : null,
+        color: gradient == null ? widget.backgroundColor : null,
         gradient: gradient,
         borderRadius: BorderRadius.circular(PremiumTheme.radiusMedium),
         border: widget.style == AnimatedButtonStyle.outline

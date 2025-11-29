@@ -9,9 +9,6 @@ import 'package:artcollab_mobile/core/storage/user_storage.dart';
 import 'package:artcollab_mobile/features/users/data/remote/user_service.dart';
 import 'package:artcollab_mobile/core/utils/resource.dart';
 import 'package:artcollab_mobile/shared/widgets/user_avatar.dart';
-import 'package:artcollab_mobile/core/theme/app_theme.dart';
-import 'package:artcollab_mobile/shared/widgets/elegant_card.dart';
-import 'package:artcollab_mobile/shared/widgets/elegant_button.dart';
 import 'package:artcollab_mobile/shared/widgets/network_image_with_fallback.dart';
 
 class FeedPage extends StatefulWidget {
@@ -31,10 +28,15 @@ class _FeedPageState extends State<FeedPage> {
   int? _currentUserId;
   String? _currentUsername;
   final Map<int, UserProfileDto> _usersCache = {};
+  
+  // 1. VARIABLE AÑADIDA
+  late final FeedBloc _feedBloc; 
 
   @override
   void initState() {
     super.initState();
+    // 2. INICIALIZACIÓN SEGURA DEL BLoC
+    _feedBloc = context.read<FeedBloc>(); 
     _loadUserInfo();
     _loadFeed();
     _connectRealtime();
@@ -111,7 +113,10 @@ class _FeedPageState extends State<FeedPage> {
   void dispose() {
     _postController.dispose();
     _scrollController.dispose();
-    context.read<FeedBloc>().add(DisconnectRealtime());
+    
+    // 3. USO DE LA REFERENCIA GUARDADA
+    _feedBloc.add(DisconnectRealtime()); 
+    
     super.dispose();
   }
 
